@@ -12,10 +12,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool _isFacingRight = true;
 
     [Header("Stamina")]
-    [SerializeField] private float maxStamina;
+    [SerializeField] private int maxStamina;
     [SerializeField] private float staminaDepletionRate;
     [SerializeField] private float staminaRegenRate;
+    [SerializeField] private int currentStamina;
     [SerializeField] private KeyCode sprintKey;
+    private float staminaFloat;
 
     [Header("Health")]
     [SerializeField] private int maxHealth;
@@ -39,7 +41,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isGrounded;
     [SerializeField] private bool isWalled;
     [SerializeField] private bool isSprinting;
-    [SerializeField] private float currentStamina;
     [SerializeField] private int currentHealth;
     [SerializeField] private float gravityDef;
 
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
         _rb = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
         currentStamina = maxStamina;
+        staminaFloat = maxStamina;
         currentHealth = maxHealth;
         gravityDef = _rb.gravityScale;
     }
@@ -241,7 +243,7 @@ public class PlayerController : MonoBehaviour
     {
         bool wantToSprint = Input.GetKey(sprintKey);
 
-        if (wantToSprint && currentStamina > 0)
+        if (wantToSprint && staminaFloat > 0 && (isGrounded || IsOnTopOfWall()))
         {
             isSprinting = true;
         }
@@ -252,19 +254,22 @@ public class PlayerController : MonoBehaviour
         
         if (isSprinting)
         {
-            currentStamina -= staminaDepletionRate * Time.deltaTime;
+            staminaFloat -= staminaDepletionRate * Time.deltaTime;
+            currentStamina = (int)staminaFloat;
             if (currentStamina <= 0)
             {
                 isSprinting = false;
                 currentStamina = 0;
+                staminaFloat = 0;
             }
         }
         else
         {
-            currentStamina = Mathf.Min(
-                currentStamina + staminaRegenRate * Time.deltaTime,
+            staminaFloat = Mathf.Min(
+                staminaFloat + staminaRegenRate * Time.deltaTime,
                 maxStamina
             );
+            currentStamina = (int)staminaFloat;
         }
     }
 
@@ -294,5 +299,4 @@ public class PlayerController : MonoBehaviour
             transform.localScale = localScale;
         }
     }
-
 }

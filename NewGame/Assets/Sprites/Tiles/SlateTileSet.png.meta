@@ -1,0 +1,661 @@
+fileFormatVersion: 2
+guid: bd063dbc6e6740b4498635f11ef486b3
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 200
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SlateTileSet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 400
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a94162f3242310459faa63551c6987b
+      internalID: 686032231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_1
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 400
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: b4cd9e6ecff1bd5418c7272bb79786ac
+      internalID: -197345435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_2
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 400
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a26db7bcf2a3a51469d27499590eb12a
+      internalID: -511885146
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 400
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -92, y: -96}
+        - {x: -67, y: -97}
+        - {x: -52, y: -82}
+        - {x: -28, y: -52}
+        - {x: -18, y: -31}
+        - {x: -10, y: -19}
+        - {x: -1, y: -20}
+        - {x: 26, y: -46}
+        - {x: 48, y: -66}
+        - {x: 74, y: -76}
+        - {x: 86, y: -95}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad5a875c2f859b744a216a89217eaf02
+      internalID: 1493975270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_4
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 400
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -92, y: -93}
+        - {x: -90, y: -71}
+        - {x: -85, y: -45}
+        - {x: -80, y: -30}
+        - {x: -72, y: -32}
+        - {x: -57, y: -37}
+        - {x: -27, y: -18}
+        - {x: -7, y: 13}
+        - {x: 0, y: 45}
+        - {x: 2, y: 84}
+        - {x: 14, y: 76}
+        - {x: 27, y: 61}
+        - {x: 38, y: 45}
+        - {x: 45, y: 32}
+        - {x: 52, y: 12}
+        - {x: 54, y: -4}
+        - {x: 66, y: -12}
+        - {x: 70.56842, y: -23.824188}
+        - {x: 72, y: -36}
+        - {x: 72, y: -56}
+        - {x: 73, y: -78}
+        - {x: 73, y: -97}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: eaab06d4f39ec464dade88f5acdcaf16
+      internalID: 250720082
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_5
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 400
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -84, y: -100}
+        - {x: -69, y: -82}
+        - {x: -56, y: -66}
+        - {x: -37, y: -63}
+        - {x: -11, y: -59}
+        - {x: 4, y: -63}
+        - {x: 9, y: -67}
+        - {x: 12, y: -79}
+        - {x: 14, y: -85}
+        - {x: 20, y: -79}
+        - {x: 35, y: -67}
+        - {x: 40, y: -66}
+        - {x: 61, y: -70}
+        - {x: 74, y: -72}
+        - {x: 81, y: -82}
+        - {x: 87, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83d2c5b684f6d574e8bee4ca41a5d338
+      internalID: -355322286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 200
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc05db5810858e040baf5791ab2220ba
+      internalID: 1473857743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_7
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 200
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f99f1fda0a6b3d449472337786ed32b
+      internalID: -1412260029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_8
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 200
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 85db22fbecab03e479aa9b6199617003
+      internalID: -2107462772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_9
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 200
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 32, y: 37}
+        - {x: 27, y: 53}
+        - {x: 35, y: 61}
+        - {x: 59, y: 75}
+        - {x: 81, y: 83}
+        - {x: 100, y: 100}
+        - {x: 100, y: -98}
+        - {x: 65, y: -76}
+        - {x: 68, y: -65}
+        - {x: 67, y: -51}
+        - {x: 60, y: -44}
+        - {x: 38, y: -31}
+        - {x: 13, y: -24}
+        - {x: 9, y: -18}
+        - {x: 14, y: -10}
+        - {x: 25, y: 4}
+        - {x: 45, y: 17}
+        - {x: 48, y: 25}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 222660b9b05fc4c41850ce06bbdbd358
+      internalID: 811014007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_10
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 200
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 66, y: 60}
+        - {x: 32, y: 49}
+        - {x: 16, y: 47}
+        - {x: -3, y: 55}
+        - {x: -22, y: 69}
+        - {x: -37, y: 58}
+        - {x: -46, y: 55}
+        - {x: -61, y: 68}
+        - {x: -85, y: 93}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 87, y: 84}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bf95ea2c4c826d449729602330b4478
+      internalID: 1466233845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_11
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd1fd2aaed415bf468712ce789f7b4b5
+      internalID: -538928700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_12
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -100}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e69f434ad1f93f645b2e3df7279c15d8
+      internalID: -220212352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_13
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: -98}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8add07ffceb11834ca54e982a9e9316e
+      internalID: -327194686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_14
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -60, y: -41}
+        - {x: -67, y: -50}
+        - {x: -69, y: -65}
+        - {x: -65, y: -78}
+        - {x: -100, y: -100}
+        - {x: -100, y: 100}
+        - {x: -88, y: 92}
+        - {x: -77, y: 80}
+        - {x: -55, y: 75}
+        - {x: -35, y: 61}
+        - {x: -27, y: 53}
+        - {x: -31, y: 41}
+        - {x: -39, y: 30}
+        - {x: -49, y: 23}
+        - {x: -46, y: 18}
+        - {x: -34, y: 11}
+        - {x: -23, y: 1}
+        - {x: -13, y: -11}
+        - {x: -10, y: -20}
+        - {x: -20, y: -26}
+        - {x: -42, y: -31}
+      tessellationDetail: 0
+      bones: []
+      spriteID: fbc7ea939e3a7f048b239e758efb4317
+      internalID: -1773308598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_15
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: -82, y: 97}
+        - {x: -100, y: 100}
+        - {x: 100, y: 100}
+        - {x: 82, y: 93}
+        - {x: 72, y: 75}
+        - {x: 66, y: 44}
+        - {x: 62, y: 6}
+        - {x: 56, y: -20}
+        - {x: 45, y: -35}
+        - {x: 30, y: -50}
+        - {x: 12, y: -84}
+        - {x: 4, y: -88}
+        - {x: -6, y: -76}
+        - {x: -12, y: -60}
+        - {x: -13, y: -35}
+        - {x: -15, y: -8}
+        - {x: -24, y: 19}
+        - {x: -37, y: 47}
+        - {x: -52, y: 68}
+        - {x: -68, y: 87}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40bc5e555588e654e9e7d8b069957ce4
+      internalID: 623422529
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SlateTileSet_16
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 0
+        width: 200
+        height: 200
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb7e65199a9d40d43841a83f008e4da8
+      internalID: 362580381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      SlateTileSet_0: 686032231
+      SlateTileSet_1: -197345435
+      SlateTileSet_10: 1466233845
+      SlateTileSet_11: -538928700
+      SlateTileSet_12: -220212352
+      SlateTileSet_13: -327194686
+      SlateTileSet_14: -1773308598
+      SlateTileSet_15: 623422529
+      SlateTileSet_16: 362580381
+      SlateTileSet_2: -511885146
+      SlateTileSet_3: 1493975270
+      SlateTileSet_4: 250720082
+      SlateTileSet_5: -355322286
+      SlateTileSet_6: 1473857743
+      SlateTileSet_7: -1412260029
+      SlateTileSet_8: -2107462772
+      SlateTileSet_9: 811014007
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
