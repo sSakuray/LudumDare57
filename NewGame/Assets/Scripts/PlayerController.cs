@@ -24,9 +24,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 3;
-    [SerializeField] private Image[] heartImages; // Массив изображений сердечек
-    [SerializeField] private Sprite fullHeartSprite; // Спрайт полного сердца
-    [SerializeField] private Sprite emptyHeartSprite; // Спрайт пустого сердца
+    [SerializeField] private Image[] heartImages; 
+    [SerializeField] private Sprite fullHeartSprite; 
+    [SerializeField] private Sprite emptyHeartSprite;
 
     [Header("Collision")]
     [SerializeField] private LayerMask groundLayer;
