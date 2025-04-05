@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,10 +19,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float staminaRegenRate;
     [SerializeField] private int currentStamina;
     [SerializeField] private KeyCode sprintKey;
+    [SerializeField] private Image staminaBar;
     private float staminaFloat;
 
     [Header("Health")]
-    [SerializeField] private int maxHealth;
+    [SerializeField] private int maxHealth = 3;
+    [SerializeField] private Image[] heartImages; // Массив изображений сердечек
+    [SerializeField] private Sprite fullHeartSprite; // Спрайт полного сердца
+    [SerializeField] private Sprite emptyHeartSprite; // Спрайт пустого сердца
 
     [Header("Collision")]
     [SerializeField] private LayerMask groundLayer;
@@ -36,6 +42,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpWallTime = 0.5f;
     [SerializeField] private float timerJumpWall;
     public Vector2 JumpAngle = new (3.5f, 10f);
+
+    [Header("VFX & Die")]
+    [SerializeField] private GameObject explosionEffect;
+    [SerializeField] private AudioClip deathSound;
+    [SerializeField] private float deathDelay = 1.5f; 
+    [SerializeField] private float knockbackForceY; 
+    private bool isDead = false;
+    private Animator camAnim;
 
     [Header("OtherParameters")]
     [SerializeField] private bool isGrounded;
@@ -55,6 +69,8 @@ public class PlayerController : MonoBehaviour
         staminaFloat = maxStamina;
         currentHealth = maxHealth;
         gravityDef = _rb.gravityScale;
+        camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
+        UpdateHealthUI();
     }
 
     private void Update()
@@ -271,6 +287,8 @@ public class PlayerController : MonoBehaviour
             );
             currentStamina = (int)staminaFloat;
         }
+        
+        UpdateStaminaBar();
     }
 
     private void OnDrawGizmos()
@@ -298,5 +316,93 @@ public class PlayerController : MonoBehaviour
             localScale.x *= -1;
             transform.localScale = localScale;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Spike") && !isDead)
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, knockbackForceY);
+            
+            TakeDamage(1);
+        }
+    }
+    
+    private void TakeDamage(int damageAmount)
+    {
+        if (isDead) return;
+        
+        currentHealth -= damageAmount;
+        UpdateHealthUI();
+        
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            camAnim.SetTrigger("Shake");
+        }
+    }
+    
+    private void UpdateHealthUI()
+    {
+        if (heartImages == null || heartImages.Length == 0 || fullHeartSprite == null || emptyHeartSprite == null) return;
+        
+        for (int i = 0; i < heartImages.Length; i++)
+        {
+            heartImages[i].enabled = true;
+            
+            if (i < currentHealth)
+            {
+                heartImages[i].sprite = fullHeartSprite;
+            }
+            else
+            {
+                heartImages[i].sprite = emptyHeartSprite;
+            }
+        }
+    }
+    private void Die()
+    {
+        camAnim.SetTrigger("Shake");
+        isDead = true;
+
+        GetComponent<SpriteRenderer>().enabled = false;
+
+        _rb.simulated = false;
+
+        foreach (Collider2D col in GetComponents<Collider2D>())
+        {
+            col.enabled = false;
+        }
+
+        if (explosionEffect != null)
+        {
+            Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        }
+
+        if (deathSound != null)
+        {
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
+        }
+
+        StartCoroutine(ReloadLevel());
+    }
+    
+    private void UpdateStaminaBar()
+    {
+        if (staminaBar != null)
+        {
+            float staminaPercent = (float)staminaFloat / maxStamina;
+            
+            staminaBar.fillAmount = staminaPercent;
+        }
+    }
+
+    private IEnumerator ReloadLevel()
+    {
+        yield return new WaitForSeconds(deathDelay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
