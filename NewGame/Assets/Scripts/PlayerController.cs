@@ -57,7 +57,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isSprinting;
     [SerializeField] private int currentHealth;
     [SerializeField] private float gravityDef;
-
+    private bool isJumping = false;
+    private bool wasGrounded = true;
+    private bool isWallClimbing = false;
+    private Animator playerAnim;
     Rigidbody2D _rb;
     Collider2D _collider;
 
@@ -71,21 +74,78 @@ public class PlayerController : MonoBehaviour
         gravityDef = _rb.gravityScale;
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         UpdateHealthUI();
+        playerAnim = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        wasGrounded = isGrounded;
         isGrounded = CheckGrounded();
         isWalled = CheckWalled();
         Movement();
         Jump();
         Sprint();
         WallJump();
-
+        HandleJumpAnimation();
+        HandleWallClimbAnimation();
         if (!isWalled)
         {
             FlipCharacter();
         }
+        UpdateWalkAnimation();
+
+    }
+
+    private void HandleJumpAnimation()
+    {
+        if (playerAnim == null) return;
+
+        // Начало прыжка (когда покидаем землю)
+        if (!isGrounded && wasGrounded && !isJumping)
+        {
+            isJumping = true;
+            playerAnim.SetBool("isJumpsS", true);
+            playerAnim.SetBool("isWalk", false);
+            playerAnim.SetBool("isRunning", false);
+        }
+
+        if (isGrounded && !wasGrounded && isJumping)
+        {
+            isJumping = false;
+            playerAnim.SetBool("isJumpsS", false);
+        }
+    }
+
+    private void HandleWallClimbAnimation()
+    {
+        if (playerAnim == null) return;
+
+        // Активация анимации лазания по стене
+        if (isWalled && !isGrounded && Input.GetAxis("Vertical") != 0)
+        {
+            isWallClimbing = true;
+            playerAnim.SetBool("isWallClimbingsS", true);
+            playerAnim.SetBool("isWalk", false);
+            playerAnim.SetBool("isRunning", false);
+            playerAnim.SetBool("isJumpsS", false);
+        }
+        // Деактивация при отлипании от стены
+        else if (isWallClimbing && (!isWalled || isGrounded))
+        {
+            isWallClimbing = false;
+            playerAnim.SetBool("isWallClimbingsS", false);
+        }
+    }
+
+    private void UpdateWalkAnimation()
+    {
+        if (playerAnim == null || isJumping || isWallClimbing) return;
+        
+        float moveInput = Input.GetAxis("Horizontal");
+        bool isMoving = Mathf.Abs(moveInput) > 0.1f;
+        
+        playerAnim.SetBool("isRunning", isSprinting && staminaFloat > 0 && isMoving);
+        playerAnim.SetBool("isWalk", isMoving && !isSprinting);
     }
 
     private void Movement()
@@ -150,11 +210,16 @@ public class PlayerController : MonoBehaviour
             if (moveY != 0)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, moveY * wallClimbSpeed);
-            }
 
+            }
             if (moveY == 0)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, 0); 
+                if (playerAnim != null)
+                {
+                    playerAnim.SetBool("isWallClimbingsS", true);
+                }
+
             }
         }
     }
@@ -174,6 +239,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isWalled && !IsOnTopOfWall() && Input.GetKeyDown(jumpKey))
         {
+            isWallClimbing = false;
+            isJumping = true;
+            if (playerAnim != null)
+            {
+                playerAnim.SetBool("isWallClimbingsS", false);
+                playerAnim.SetBool("isJumpsS", true);
+            }
             blockMoveX = true;
 
             _isFacingRight = !_isFacingRight;
@@ -287,7 +359,6 @@ public class PlayerController : MonoBehaviour
             );
             currentStamina = (int)staminaFloat;
         }
-        
         UpdateStaminaBar();
     }
 
