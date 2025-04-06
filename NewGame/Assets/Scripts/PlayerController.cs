@@ -328,7 +328,7 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    private void TakeDamage(int damageAmount)
+    public void TakeDamage(int damageAmount)
     {
         if (isDead) return;
         
