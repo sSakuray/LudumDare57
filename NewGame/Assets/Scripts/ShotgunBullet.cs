@@ -42,9 +42,10 @@ public class ShotgunBullet : MonoBehaviour
     
     private void HandleCollision(GameObject hitObject)
     {
-        if (hitObject.CompareTag("Enemy") || hitObject.GetComponent<EnemyOne>() != null)
+        EnemyOne enemy = hitObject.GetComponent<EnemyOne>();
+        if (enemy != null)
         {
-            Destroy(hitObject);
+            enemy.Die();
             Destroy(gameObject);
         }
         else if (!hitObject.CompareTag("Player"))

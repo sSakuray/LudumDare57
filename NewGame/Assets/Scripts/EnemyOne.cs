@@ -31,7 +31,11 @@ public class EnemyOne : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private LayerMask obstacleLayer;
     
-    
+    [Header("Эффекты")]
+    [SerializeField] private GameObject deathEffectPrefab;
+    [SerializeField] private AudioClip[] deathSounds;
+    private AudioSource audioSource;
+
     private Vector3 startPosition;
     private Vector3 leftPatrolPoint; 
     private Vector3 rightPatrolPoint; 
@@ -53,12 +57,13 @@ public class EnemyOne : MonoBehaviour
     
     private void Start()
     {
+        audioSource = gameObject.AddComponent<AudioSource>();
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
         startPosition = transform.position;
 
-        leftPatrolPoint = new Vector3(startPosition.x - patrolLeftLimit, startPosition.y, startPosition.z);
-        rightPatrolPoint = new Vector3(startPosition.x + patrolRightLimit, startPosition.y, startPosition.z);
+        leftPatrolPoint = startPosition + Vector3.left * patrolLeftLimit;
+        rightPatrolPoint = startPosition + Vector3.right * patrolRightLimit;
     }
     
     private void Update()
@@ -190,14 +195,11 @@ public class EnemyOne : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Проверяем, находится ли объект, с которым столкнулись, на слое obstacleLayer
         if (((1 << collision.gameObject.layer) & obstacleLayer) != 0)
         {
-            // Разворачиваем врага в противоположную сторону
             movingRight = !movingRight;
             Flip();
             
-            // Устанавливаем скорость в новом направлении
             float direction = movingRight ? 1f : -1f;
             rb.velocity = new Vector2(direction * patrolSpeed, rb.velocity.y);
         }
@@ -280,6 +282,20 @@ public class EnemyOne : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+    
+    public void Die()
+    {
+        if (deathSounds != null && deathSounds.Length > 0)
+        {
+            AudioClip randomSound = deathSounds[Random.Range(0, deathSounds.Length)];
+            AudioSource.PlayClipAtPoint(randomSound, transform.position);
+        }
+
+        GameObject effect = Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+        Destroy(effect, 2f);
+        
+        Destroy(gameObject);
     }
     
     private void OnDrawGizmosSelected()

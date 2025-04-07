@@ -195,6 +195,11 @@ MonoBehaviour:
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 640
+  deathEffectPrefab: {fileID: 6510795584621493483, guid: 5aa475bcd2cd6cf4ba13d7ac2f253bdf, type: 3}
+  deathSounds:
+  - {fileID: 8300000, guid: 4fee142e98187884aa022375a2df317d, type: 3}
+  - {fileID: 8300000, guid: cdea168234c579f48a99ec21370c6b08, type: 3}
+  - {fileID: 8300000, guid: b8686d3507137924faf614b13722bafc, type: 3}
 --- !u!1 &4662656938241618621
 GameObject:
   m_ObjectHideFlags: 0

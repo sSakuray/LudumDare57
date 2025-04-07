@@ -13,10 +13,8 @@ public class Shotgun : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     [SerializeField] private TMP_Text ammoText;
     [SerializeField] private int ammo;
-    
-    [Header("Bullet Spawn Settings")]
-    [SerializeField] private Vector2 bulletSpawnOffset = new Vector2(1f, 0f); // Смещение точки спавна пули
-    [SerializeField] private bool showSpawnPoint = true; // Показывать точку спавна в редакторе
+    [SerializeField] private Vector2 bulletSpawnOffset = new Vector2(1f, 0f);
+    [SerializeField] private bool showSpawnPoint = true; 
     
     private float lastShotTime;
     private bool isOnCooldown;
@@ -106,32 +104,26 @@ public class Shotgun : MonoBehaviour
 
     private void Shoot()
     {
-        // Получаем направление выстрела на основе угла поворота оружия
         float angle = transform.eulerAngles.z * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         
-        // Определяем позицию спавна пули с учетом смещения и направления персонажа
         bool playerFacingRight = playerController != null ? playerController.IsFacingRight : true;
         Vector2 offset = bulletSpawnOffset;
         if (!playerFacingRight)
         {
-            offset.x = -offset.x; // Инвертируем X-смещение, если персонаж смотрит влево
-            direction.x = -direction.x; // Инвертируем направление X, если персонаж смотрит влево
-            direction.y = -direction.y; // Инвертируем направление Y, если персонаж смотрит влево
+            offset.x = -offset.x;
+            direction.x = -direction.x; 
+            direction.y = -direction.y; 
         }
         
-        // Вращаем смещение в соответствии с углом оружия
         float offsetX = offset.x * Mathf.Cos(angle) - offset.y * Mathf.Sin(angle);
         float offsetY = offset.x * Mathf.Sin(angle) + offset.y * Mathf.Cos(angle);
         Vector2 rotatedOffset = new Vector2(offsetX, offsetY);
         
-        // Вычисляем позицию спавна пули
         Vector2 spawnPosition = (Vector2)transform.position + rotatedOffset;
         
-        // Создаем пулю с нулевым поворотом
         GameObject bullet = Instantiate(bulletPrefab, spawnPosition, Quaternion.identity);
         
-        // Устанавливаем направление пули через новый метод
         ShotgunBullet shotgunBullet = bullet.GetComponent<ShotgunBullet>();
         if (shotgunBullet != null)
         {
@@ -154,10 +146,8 @@ public class Shotgun : MonoBehaviour
     {
         if (showSpawnPoint)
         {
-            // Получаем угол поворота оружия
             float angle = transform.eulerAngles.z * Mathf.Deg2Rad;
             
-            // Определяем направление в зависимости от того, смотрит ли персонаж влево или вправо
             bool playerFacingRight = true;
             if (Application.isPlaying && playerController != null)
             {
@@ -170,12 +160,10 @@ public class Shotgun : MonoBehaviour
                 offset.x = -offset.x;
             }
             
-            // Вращаем смещение в соответствии с углом оружия
             float offsetX = offset.x * Mathf.Cos(angle) - offset.y * Mathf.Sin(angle);
             float offsetY = offset.x * Mathf.Sin(angle) + offset.y * Mathf.Cos(angle);
             Vector2 rotatedOffset = new Vector2(offsetX, offsetY);
             
-            // Рисуем точку спавна пули
             Gizmos.color = Color.red;
             Gizmos.DrawSphere((Vector2)transform.position + rotatedOffset, 0.1f);
         }
