@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip footstepSound; 
     [SerializeField] private float knockbackForceY; 
     public Vector2 hitAngle = new (2.5f, 4f);
     private bool isDead = false;
@@ -69,6 +70,11 @@ public class PlayerController : MonoBehaviour
     private Animator playerAnim;
     Rigidbody2D _rb;
     Collider2D _collider;
+    private AudioSource audioSource; // Для звуков ходьбы
+    private float footstepTimer = 0f; // Таймер для звуков шагов
+    private float footstepInterval = 0.5f; // Интервал между шагами при ходьбе
+    private float sprintFootstepInterval = 0.3f; // Интервал между шагами при спринте
+
 
     private void Start()
     {
@@ -81,6 +87,14 @@ public class PlayerController : MonoBehaviour
         camAnim = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Animator>();
         UpdateHealthUI();
         playerAnim = GetComponent<Animator>();
+
+                // Инициализация AudioSource для звуков ходьбы
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+            audioSource.volume = 0.5f; // Устанавливаем громкость по умолчанию
+        }
     }
 
     private void Update()
@@ -149,6 +163,28 @@ public class PlayerController : MonoBehaviour
         
         playerAnim.SetBool("isRunning", isSprinting && staminaFloat > 0 && isMoving);
         playerAnim.SetBool("isWalk", isMoving && !isSprinting);
+        
+                // Воспроизведение звуков шагов
+        if (isMoving && isGrounded)
+        {
+            footstepTimer -= Time.deltaTime;
+            
+            if (footstepTimer <= 0)
+            {
+                // Определяем интервал в зависимости от спринта
+                float currentInterval = isSprinting ? sprintFootstepInterval : footstepInterval;
+                
+                // Воспроизводим звук шага
+                if (footstepSound != null && audioSource != null)
+                {
+                    audioSource.pitch = isSprinting ? 1.2f : 1.0f; // Повышаем тон при спринте
+                    audioSource.PlayOneShot(footstepSound);
+                }
+                
+                // Сбрасываем таймер
+                footstepTimer = currentInterval;
+            }
+        }
     }
 
     private void Movement()

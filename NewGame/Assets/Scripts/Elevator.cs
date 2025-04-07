@@ -7,9 +7,20 @@ public class Elevator : MonoBehaviour
 {
     [SerializeField] private GameObject title;
     [SerializeField] private int sceneBuildIndex;
+    [SerializeField] private AudioClip buttonSound;
+    
+    private AudioSource audioSource;
+    
     void Start()
     {
         title.SetActive(false);
+        
+        // Получаем или добавляем AudioSource
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
     
     private void OnTriggerEnter2D(Collider2D other) 
@@ -45,6 +56,10 @@ public class Elevator : MonoBehaviour
         if (title.activeSelf && Input.GetKeyDown(KeyCode.F))
         {
             StartCoroutine(ElevatorButtonPress());
+            if (buttonSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(buttonSound);
+            }
         }
     }
 
