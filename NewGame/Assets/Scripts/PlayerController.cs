@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private KeyCode jumpKey;
     [SerializeField] private bool _isFacingRight = true;
+    
+    public bool IsFacingRight => _isFacingRight;
 
     [Header("Stamina")]
     [SerializeField] private int maxStamina;
@@ -32,9 +34,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private LayerMask wallLayer;
     [SerializeField] private Vector2 groundCheckSize = new(0.5f, 0.1f);
+    [SerializeField] private Vector2 groundCheckOffset = new(0f, -0.5f);
     [SerializeField] private Vector2 wallCheckSize = new(0.1f, 1.5f);
+    [SerializeField] private Vector2 wallCheckOffset = new(0.5f, 0f);
     [SerializeField] private Vector2 bottomCheckSize = new(0.5f, 0.1f);
-    [SerializeField] private float bottomCheckOffset = 0.5f;
+    [SerializeField] private Vector2 bottomCheckOffset = new(0f, -0.5f);
 
     [Header("Wall Movement")] 
     [SerializeField] private float wallClimbSpeed;
@@ -47,7 +51,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip hitSound;
-    [SerializeField] private float deathDelay = 1.5f; 
     [SerializeField] private float knockbackForceY; 
     public Vector2 hitAngle = new (2.5f, 4f);
     private bool isDead = false;
@@ -103,7 +106,6 @@ public class PlayerController : MonoBehaviour
     {
         if (playerAnim == null) return;
 
-        // Начало прыжка (когда покидаем землю)
         if (!isGrounded && wasGrounded && !isJumping)
         {
             isJumping = true;
@@ -123,7 +125,6 @@ public class PlayerController : MonoBehaviour
     {
         if (playerAnim == null) return;
 
-        // Активация анимации лазания по стене
         if (isWalled && !isGrounded && Input.GetAxis("Vertical") != 0)
         {
             isWallClimbing = true;
@@ -132,7 +133,6 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetBool("isRunning", false);
             playerAnim.SetBool("isJumpsS", false);
         }
-        // Деактивация при отлипании от стены
         else if (isWallClimbing && (!isWalled || isGrounded))
         {
             isWallClimbing = false;
@@ -276,7 +276,7 @@ public class PlayerController : MonoBehaviour
     private bool CheckGrounded()
     {
         Collider2D col = Physics2D.OverlapBox(
-            transform.position,
+            transform.position + new Vector3(groundCheckOffset.x, groundCheckOffset.y, 0),
             groundCheckSize,
             0,
             groundLayer
@@ -289,7 +289,7 @@ public class PlayerController : MonoBehaviour
         if (IsOnTopOfWall()) return false; 
         
         Collider2D col = Physics2D.OverlapBox(
-            transform.position, 
+            transform.position + new Vector3(wallCheckOffset.x * (_isFacingRight ? 1 : -1), wallCheckOffset.y, 0), 
             wallCheckSize, 
             0, 
             wallLayer
@@ -302,8 +302,8 @@ public class PlayerController : MonoBehaviour
         if (_collider == null) return false;
         
         Vector2 bottomPosition = new Vector2(
-            transform.position.x,
-            transform.position.y - bottomCheckOffset
+            transform.position.x + bottomCheckOffset.x,
+            transform.position.y + bottomCheckOffset.y
         );
         
         Collider2D colBottom = Physics2D.OverlapBox(
@@ -314,14 +314,14 @@ public class PlayerController : MonoBehaviour
         );
         
         Collider2D colLeft = Physics2D.OverlapBox(
-            new Vector2(transform.position.x - wallCheckSize.x, transform.position.y),
+            new Vector2(transform.position.x - wallCheckOffset.x, transform.position.y + wallCheckOffset.y),
             new Vector2(0.1f, wallCheckSize.y * 0.8f), 
             0,
             wallLayer
         );
         
         Collider2D colRight = Physics2D.OverlapBox(
-            new Vector2(transform.position.x + wallCheckSize.x, transform.position.y),
+            new Vector2(transform.position.x + wallCheckOffset.x, transform.position.y + wallCheckOffset.y),
             new Vector2(0.1f, wallCheckSize.y * 0.8f), 
             0,
             wallLayer
@@ -368,15 +368,20 @@ public class PlayerController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, groundCheckSize);
+        Gizmos.DrawWireCube(
+            transform.position + new Vector3(groundCheckOffset.x, groundCheckOffset.y, 0), 
+            groundCheckSize
+        );
         
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(transform.position, wallCheckSize);
+        Vector3 wallCheckPosition = transform.position + 
+            new Vector3(wallCheckOffset.x * (Application.isPlaying ? (_isFacingRight ? 1 : -1) : 1), wallCheckOffset.y, 0);
+        Gizmos.DrawWireCube(wallCheckPosition, wallCheckSize);
         
         Gizmos.color = Color.green;
         Vector2 bottomPosition = new Vector2(
-            transform.position.x,
-            transform.position.y - bottomCheckOffset
+            transform.position.x + bottomCheckOffset.x,
+            transform.position.y + bottomCheckOffset.y
         );
         Gizmos.DrawWireCube(bottomPosition, bottomCheckSize);
     }
@@ -409,8 +414,9 @@ public class PlayerController : MonoBehaviour
         
         blockMoveX = true;
         _rb.gravityScale = gravityDef;
-        _rb.velocity = new Vector2(0, 0);
-        _rb.velocity = new Vector2(transform.localScale.x * hitAngle.x, hitAngle.y);
+        _rb.velocity = Vector2.zero;
+        
+        _rb.velocity = new Vector2(-Mathf.Abs(hitAngle.x), hitAngle.y);
         
         currentHealth -= damageAmount;
         UpdateHealthUI();
@@ -480,7 +486,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-// Добавьте этот класс в любой файл
     public static class LevelReloader
     {
         private class TempMonoBehaviour : MonoBehaviour {}

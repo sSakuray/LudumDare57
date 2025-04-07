@@ -1,16 +1,49 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CameraFollow : MonoBehaviour
 {
-    private Vector3 offset = new Vector3(0f, 0f, -10f);
-    [SerializeField] private float smoothTime = 0.25f;
-    [SerializeField] private Vector3 velocity = Vector3.zero;
+    [SerializeField] private Transform target; 
+    [SerializeField] private float smoothSpeed = 0.125f;
+    [SerializeField] private Vector2 offset = new Vector2(0f, 0f);
+    [SerializeField] private bool useBounds = false;
+    [SerializeField] private float minX = -10f;
+    [SerializeField] private float maxX = 10f;
+    [SerializeField] private float minY = -10f;
+    [SerializeField] private float maxY = 10f;
 
-    [SerializeField] private Transform target;
-
-    private void Update()
+    private void LateUpdate()
     {
-        Vector3 targetPosition = target.position + offset;
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        if (target == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                target = player.transform;
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        Vector3 desiredPosition = new Vector3(
+            target.position.x + offset.x,
+            target.position.y + offset.y,
+            transform.position.z);  
+
+        if (useBounds)
+        {
+            desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
+            desiredPosition.y = Mathf.Clamp(desiredPosition.y, minY, maxY);
+        }
+
+        Vector3 smoothedPosition = Vector3.Lerp(
+            transform.position,
+            desiredPosition,
+            smoothSpeed * Time.deltaTime * 60);  
+
+        transform.position = smoothedPosition;
     }
 }

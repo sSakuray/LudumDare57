@@ -5,14 +5,8 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
-    [SerializeField] private float lifetime = 5f;
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private LayerMask targetLayers;
-    
-    private void Start()
-    {
-        Destroy(gameObject, lifetime);
-    }
     
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -24,11 +18,22 @@ public class Bullet : MonoBehaviour
                 player.TakeDamage(damage);
             }
             
-            Destroy(gameObject);
+            DestroyBullet();
         }
-        else if (((1 << collision.gameObject.layer) & targetLayers) != 0)
-        {   
-            Destroy(gameObject);
+        else
+        {
+            DestroyBullet();
         }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        DestroyBullet();
+    }
+    
+    private void DestroyBullet()
+    {
+        Destroy(gameObject);
     }
 }

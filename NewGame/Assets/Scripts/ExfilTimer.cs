@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class ExfilTimer : MonoBehaviour
 {
@@ -25,7 +27,7 @@ public class ExfilTimer : MonoBehaviour
         if (timeleft <= 0)
         {
             iscounting = false;
-            //SDELAI CHOTOBI IGRA PROIGRIVALAS
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
