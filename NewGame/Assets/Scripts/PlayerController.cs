@@ -46,8 +46,10 @@ public class PlayerController : MonoBehaviour
     [Header("VFX & Die")]
     [SerializeField] private GameObject explosionEffect;
     [SerializeField] private AudioClip deathSound;
+    [SerializeField] private AudioClip hitSound;
     [SerializeField] private float deathDelay = 1.5f; 
     [SerializeField] private float knockbackForceY; 
+    public Vector2 hitAngle = new (2.5f, 4f);
     private bool isDead = false;
     private Animator camAnim;
 
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isSprinting;
     [SerializeField] private int currentHealth;
     [SerializeField] private float gravityDef;
+    [SerializeField] private GameObject parentGameOjb;
     private bool isJumping = false;
     private bool wasGrounded = true;
     private bool isWallClimbing = false;
@@ -402,10 +405,15 @@ public class PlayerController : MonoBehaviour
     public void TakeDamage(int damageAmount)
     {
         if (isDead) return;
+        AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        
+        blockMoveX = true;
+        _rb.gravityScale = gravityDef;
+        _rb.velocity = new Vector2(0, 0);
+        _rb.velocity = new Vector2(transform.localScale.x * hitAngle.x, hitAngle.y);
         
         currentHealth -= damageAmount;
         UpdateHealthUI();
-        
         if (currentHealth <= 0)
         {
             Die();
@@ -415,7 +423,6 @@ public class PlayerController : MonoBehaviour
             camAnim.SetTrigger("Shake");
         }
     }
-    
     private void UpdateHealthUI()
     {
         if (heartImages == null || heartImages.Length == 0 || fullHeartSprite == null || emptyHeartSprite == null) return;
@@ -438,9 +445,6 @@ public class PlayerController : MonoBehaviour
     {
         camAnim.SetTrigger("Shake");
         isDead = true;
-
-        GetComponent<SpriteRenderer>().enabled = false;
-
         _rb.simulated = false;
 
         foreach (Collider2D col in GetComponents<Collider2D>())
@@ -458,9 +462,14 @@ public class PlayerController : MonoBehaviour
             AudioSource.PlayClipAtPoint(deathSound, transform.position);
         }
 
-        StartCoroutine(ReloadLevel());
+        LevelReloader.ReloadAfterDelay(2f);
+        
+        if (parentGameOjb != null)
+        {
+            Destroy(parentGameOjb);
+        }
     }
-    
+
     private void UpdateStaminaBar()
     {
         if (staminaBar != null)
@@ -471,9 +480,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ReloadLevel()
+// Добавьте этот класс в любой файл
+    public static class LevelReloader
     {
-        yield return new WaitForSeconds(deathDelay);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        private class TempMonoBehaviour : MonoBehaviour {}
+        
+        public static void ReloadAfterDelay(float delay)
+        {
+            var tempObj = new GameObject("TempReloader");
+            tempObj.AddComponent<TempMonoBehaviour>()
+                .StartCoroutine(ReloadCoroutine(delay, tempObj));
+        }
+
+        private static IEnumerator ReloadCoroutine(float delay, GameObject tempObj)
+        {
+            yield return new WaitForSecondsRealtime(delay);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            
+        }
     }
 }

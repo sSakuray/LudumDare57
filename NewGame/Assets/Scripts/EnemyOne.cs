@@ -42,8 +42,6 @@ public class EnemyOne : MonoBehaviour
     private bool canMeleeAttack = true; 
     private bool isWaitingAtPatrolPoint = false; 
     private bool movingRight = true; 
-    
-    // Состояния врага
     private enum EnemyState 
     { 
         Patrolling,  

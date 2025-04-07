@@ -18,29 +18,16 @@ public class Bullet : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // Наносим урон игроку
             PlayerController player = collision.GetComponent<PlayerController>();
             if (player != null)
             {
                 player.TakeDamage(damage);
             }
             
-            if (hitEffect != null)
-            {
-                Instantiate(hitEffect, transform.position, Quaternion.identity);
-            }
-            
-            // Уничтожаем пулю
             Destroy(gameObject);
         }
-        // Проверяем, попали ли мы в препятствие
         else if (((1 << collision.gameObject.layer) & targetLayers) != 0)
-        {
-            if (hitEffect != null)
-            {
-                Instantiate(hitEffect, transform.position, Quaternion.identity);
-            }
-            
+        {   
             Destroy(gameObject);
         }
     }

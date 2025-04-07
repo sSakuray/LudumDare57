@@ -178,7 +178,7 @@ MonoBehaviour:
   patrolRightLimit: 7
   shootingRadius: 13
   chasingRadius: 8
-  meleeRadius: 1.2
+  meleeRadius: 2
   patrolSpeed: 2
   chasingSpeed: 3
   patrolWaitTime: 1
