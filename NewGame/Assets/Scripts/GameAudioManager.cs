@@ -9,10 +9,8 @@ public class GameAudioManager : MonoBehaviour
     public AudioSource musicSource;
     public Slider volumeSlider;
     private const string VOLUME_KEY = "GameVolume";
-
-    [Header("Музыка для разных сцен")]
     public AudioClip[] sceneMusic;  
-    public int[] scenesWithoutMusic;  // Сцены, где музыка не нужна
+    public int[] scenesWithoutMusic;  
     
 
     private void Awake()
@@ -79,7 +77,6 @@ public class GameAudioManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Проверяем, нужно ли отключить музыку для этой сцены
         if (scenesWithoutMusic != null)
         {
             foreach (int sceneIndex in scenesWithoutMusic)

@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce;
     [SerializeField] private KeyCode jumpKey;
     [SerializeField] private bool _isFacingRight = true;
-    
     public bool IsFacingRight => _isFacingRight;
 
     [Header("Stamina")]
@@ -70,10 +69,10 @@ public class PlayerController : MonoBehaviour
     private Animator playerAnim;
     Rigidbody2D _rb;
     Collider2D _collider;
-    private AudioSource audioSource; // Для звуков ходьбы
-    private float footstepTimer = 0f; // Таймер для звуков шагов
-    private float footstepInterval = 0.5f; // Интервал между шагами при ходьбе
-    private float sprintFootstepInterval = 0.3f; // Интервал между шагами при спринте
+    private AudioSource audioSource; 
+    private float footstepTimer = 0f;
+    private float footstepInterval = 0.5f;
+    private float sprintFootstepInterval = 0.3f; 
 
 
     private void Start()
@@ -88,12 +87,11 @@ public class PlayerController : MonoBehaviour
         UpdateHealthUI();
         playerAnim = GetComponent<Animator>();
 
-                // Инициализация AudioSource для звуков ходьбы
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.volume = 0.5f; // Устанавливаем громкость по умолчанию
+            audioSource.volume = 0.5f; 
         }
     }
 
@@ -164,24 +162,20 @@ public class PlayerController : MonoBehaviour
         playerAnim.SetBool("isRunning", isSprinting && staminaFloat > 0 && isMoving);
         playerAnim.SetBool("isWalk", isMoving && !isSprinting);
         
-                // Воспроизведение звуков шагов
         if (isMoving && isGrounded)
         {
             footstepTimer -= Time.deltaTime;
             
             if (footstepTimer <= 0)
             {
-                // Определяем интервал в зависимости от спринта
                 float currentInterval = isSprinting ? sprintFootstepInterval : footstepInterval;
                 
-                // Воспроизводим звук шага
                 if (footstepSound != null && audioSource != null)
                 {
-                    audioSource.pitch = isSprinting ? 1.2f : 1.0f; // Повышаем тон при спринте
+                    audioSource.pitch = isSprinting ? 1.2f : 1.0f; 
                     audioSource.PlayOneShot(footstepSound);
                 }
                 
-                // Сбрасываем таймер
                 footstepTimer = currentInterval;
             }
         }
@@ -246,19 +240,27 @@ public class PlayerController : MonoBehaviour
             _rb.velocity = new Vector2(0, _rb.velocity.y);
 
             float moveY = Input.GetAxis("Vertical");
-            if (moveY != 0)
+            
+            // Only allow downward movement
+            if (moveY < 0)
             {
                 _rb.velocity = new Vector2(_rb.velocity.x, moveY * wallClimbSpeed);
-
             }
-            if (moveY == 0)
+            else if (moveY == 0)
             {
-                _rb.velocity = new Vector2(_rb.velocity.x, 0); 
-                if (playerAnim != null)
-                {
-                    playerAnim.SetBool("isWallClimbingsS", true);
-                }
+                // When not moving, slowly slide down
+                _rb.velocity = new Vector2(_rb.velocity.x, -wallClimbSpeed * 0.5f);
+            }
 
+            if (moveX != 0)
+            {
+                _rb.velocity = new Vector2(moveX * moveSpeed, _rb.velocity.y);
+            }
+
+            // Update wall climbing animation when sliding down
+            if (playerAnim != null)
+            {
+                playerAnim.SetBool("isWallClimbingsS", moveY != 0 || (moveY == 0 && _rb.velocity.y < 0));
             }
         }
     }
@@ -437,22 +439,29 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Spike") && !isDead)
         {
-            _rb.velocity = new Vector2(_rb.velocity.x, knockbackForceY);
-            
-            TakeDamage(1);
+            TakeDamage(1, collision.transform.position);
+        }
+        else if (collision.gameObject.CompareTag("Enemy") && !isDead)
+        {
+            TakeDamage(1, collision.transform.position);
         }
     }
     
-    public void TakeDamage(int damageAmount)
+    public void TakeDamage(int damageAmount, Vector2 damageSourcePosition)
     {
         if (isDead) return;
         AudioSource.PlayClipAtPoint(hitSound, transform.position);
+        
+        bool hitFromRight = damageSourcePosition.x > transform.position.x;
         
         blockMoveX = true;
         _rb.gravityScale = gravityDef;
         _rb.velocity = Vector2.zero;
         
-        _rb.velocity = new Vector2(-Mathf.Abs(hitAngle.x), hitAngle.y);
+        float knockbackX = hitFromRight ? -8f : 8f; 
+        Vector2 knockbackDirection = new Vector2(knockbackX, 4f);
+        
+        _rb.velocity = knockbackDirection;
         
         currentHealth -= damageAmount;
         UpdateHealthUI();

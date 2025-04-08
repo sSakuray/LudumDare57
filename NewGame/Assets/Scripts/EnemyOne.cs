@@ -250,7 +250,7 @@ public class EnemyOne : MonoBehaviour
             PlayerController playerController = playerCollider.GetComponent<PlayerController>();
             if (playerController != null)
             {
-                playerController.TakeDamage(meleeDamage);
+                playerController.TakeDamage(meleeDamage, transform.position);
             }
         }
         

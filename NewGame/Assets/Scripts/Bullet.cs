@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
             PlayerController player = collision.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.TakeDamage(damage);
+                player.TakeDamage(damage, transform.position);
             }
             
             DestroyBullet();

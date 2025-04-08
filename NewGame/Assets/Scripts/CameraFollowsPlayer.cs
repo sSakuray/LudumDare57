@@ -13,6 +13,8 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float minY = -10f;
     [SerializeField] private float maxY = 10f;
 
+    private Vector3? lastValidPosition = null;
+
     private void LateUpdate()
     {
         if (target == null)
@@ -21,6 +23,12 @@ public class CameraFollow : MonoBehaviour
             if (player != null)
             {
                 target = player.transform;
+                lastValidPosition = null; 
+            }
+            else if (lastValidPosition.HasValue)
+            {
+                transform.position = lastValidPosition.Value;
+                return;
             }
             else
             {
@@ -38,6 +46,8 @@ public class CameraFollow : MonoBehaviour
             desiredPosition.x = Mathf.Clamp(desiredPosition.x, minX, maxX);
             desiredPosition.y = Mathf.Clamp(desiredPosition.y, minY, maxY);
         }
+
+        lastValidPosition = desiredPosition;
 
         Vector3 smoothedPosition = Vector3.Lerp(
             transform.position,
